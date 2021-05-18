@@ -13,14 +13,16 @@ void swap(vector<T>& a, int& v1_idx, int& v2_idx){
 template <class T>
 int hoarePartition(vector<T>& a, int& l, int& r){
     int p = a[l], i = l, j = r + 1;
+    int g = 0;
     do{
         do {
             i = i + 1;
-        }while(a[i] >= p);
+        }while(!(a[i] >= p));
         do {
             j = j - 1;
-        }while(a[j] <= p);
-    }while(i >= j);
+        }while(!(a[j] <= p));
+        swap(a, i, j);
+    }while(!(i >= j));
     swap(a, i, j);
     swap(a, l, j);
     return j;
@@ -44,12 +46,12 @@ int main() {
                              77, 2, 61, 3, 77, 47, 80, 75, 5, 62, 1, 88, 18, 40, 32, 13, 72};
 
 //    vector<char> instances = {'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    int l = 0, r = instances.size();
-    
+    int l = 0, r = instances.size() - 1;
+
     quickSort(instances, l, r);
-    
-    for (auto& i : instances) 
+
+    for (auto& i : instances)
         cout << i << " ";
-    
+
     return 0;
 }
