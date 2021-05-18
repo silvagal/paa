@@ -13,16 +13,15 @@ void swap(vector<T>& a, int& v1_idx, int& v2_idx){
 template <class T>
 int hoarePartition(vector<T>& a, int& l, int& r){
     int p = a[l], i = l, j = r + 1;
-    int g = 0;
     do{
         do {
             i = i + 1;
-        }while(!(a[i] >= p));
+        }while(a[i] < p);
         do {
             j = j - 1;
-        }while(!(a[j] <= p));
+        }while(a[j] > p);
         swap(a, i, j);
-    }while(!(i >= j));
+    }while(i < j);
     swap(a, i, j);
     swap(a, l, j);
     return j;
