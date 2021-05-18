@@ -45,9 +45,11 @@ int main() {
 
 //    vector<char> instances = {'E', 'X', 'A', 'M', 'P', 'L', 'E'};
     int l = 0, r = instances.size();
+    
     quickSort(instances, l, r);
-    for (auto& i : instances) {
+    
+    for (auto& i : instances) 
         cout << i << " ";
-    }
+    
     return 0;
 }
