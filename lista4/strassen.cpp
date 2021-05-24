@@ -7,7 +7,6 @@ typedef std::vector<std::vector<int>> matrix;
 
 matrix generateMatrix(int& n){
     matrix random_matrix(n, std::vector<int>(n));
-    srand((unsigned) time(nullptr));
     for(int i = 0; i<n; i++)
         for(int j = 0; j<n; j++) {
             random_matrix[i][j] = rand() % 10;
@@ -141,6 +140,8 @@ matrix strassen(matrix& x, matrix& y, int n){
 }
 
 int main() {
+    srand((unsigned) time(nullptr));
+
     matrix x(2, std::vector<int>(2));
     matrix y(2, std::vector<int>(2));
     matrix z(2, std::vector<int>(2));
