@@ -2,45 +2,42 @@
 #include <vector>
 #include <ctime>
 
-void generateInstances(std::vector<int>& instances){
+void generateIntValues(std::vector<int>& instances){
     for (int i = 0; i < instances.size(); ++i)
         instances[i] = rand() % 100;
 }
 
 template <class T>
-T maximumValue(std::vector<T>& numbers){
-    int n = numbers.size();
-    if (n == 1)
-        return numbers[0];
-    auto first = numbers.cbegin();
-    auto last = numbers.cbegin() + n / 2;
-    std::vector<T> new_vec1(first, last);
-
-
-    first = numbers.cbegin() + n / 2;
-    last = numbers.cend();
-    std::vector<T> new_vec2(first, last);
-
-    T value1 = maximumValue(new_vec1);
-    T value2 = maximumValue(new_vec2);
-    if( value1 > value2)
-        return value1;
+int maximumValue(std::vector<T>& numbers, int& begin_idx, int& end_idx){
+    if (begin_idx == end_idx)
+        return begin_idx;
+    int half_idx = end_idx / 2;
+    if (half_idx < begin_idx)
+        half_idx = begin_idx;
+    int max1_idx = maximumValue(numbers, begin_idx, half_idx);
+    half_idx++;
+    int max2_idx = maximumValue(numbers, half_idx, end_idx);
+    if( numbers[max1_idx] > numbers[max2_idx])
+        return max1_idx;
     else
-        return value2;
+        return max2_idx;
 }
 
 int main() {
     srand((unsigned) time(nullptr));
-    int n = 40;
+    
+    int n = 40;                                //vector size
     std::vector<int> instances(n, 0);
-    generateInstances(instances);
+    generateIntValues(instances);
 
     std::cout << "Instances: " << std::endl;
     for (auto i : instances)
         std::cout << i << " ";
     std::cout << std::endl;
 
-    int max = maximumValue(instances);
-    std::cout << "Greatest: " << max;
+    int begin_idx = 0;
+    int end_idx = instances.size() - 1;
+    int max_idx = maximumValue(instances, begin_idx, end_idx);
+    std::cout << "Greatest: " << instances[max_idx] << " Index: " << max_idx;
     return 0;
 }
