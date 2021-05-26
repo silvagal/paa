@@ -3,61 +3,60 @@
 #include <ctime>
 
 typedef struct Maxmin{
-    int min;
-    int max;
+    int min_idx;
+    int max_idx;
 } Maxmin;
 
-void generateInstances(std::vector<int>& instances){
+void generateIntValues(std::vector<int>& instances){
     for (int i = 0; i < instances.size(); ++i)
         instances[i] = rand() % 100;
 }
 
 template <class T>
-Maxmin maximumValue(std::vector<T>& numbers){
+Maxmin maximumValue(std::vector<T>& numbers, int& begin_idx, int& end_idx){
     Maxmin result;
-    int n = numbers.size();
-    if (n == 1) {
-        result.min = numbers[0];
-        result.max = numbers[0];
+    if (begin_idx == end_idx) {
+        result.min_idx = begin_idx;
+        result.max_idx = begin_idx;
         return result;
     }
-    auto first = numbers.cbegin();
-    auto last = numbers.cbegin() + n / 2;
-    std::vector<T> new_vec1(first, last);
-
-
-    first = numbers.cbegin() + n / 2;
-    last = numbers.cend();
-    std::vector<T> new_vec2(first, last);
-
-    Maxmin value1 = maximumValue(new_vec1);
-    Maxmin value2 = maximumValue(new_vec2);
-    if( value1.min > value2.min)
-        result.min = value2.min;
+    int half_idx = end_idx / 2;
+    if (half_idx < begin_idx)
+        half_idx = begin_idx;
+    Maxmin maxmin1 = maximumValue(numbers, begin_idx, half_idx);
+    half_idx++;
+    Maxmin maxmin2 = maximumValue(numbers, half_idx, end_idx);
+    if( numbers[maxmin1.min_idx] > numbers[maxmin2.min_idx])
+        result.min_idx = maxmin2.min_idx;
     else
-        result.min = value1.min;
+        result.min_idx = maxmin1.min_idx;
 
-    if( value1.max < value2.max)
-        result.max = value2.max;
+    if( numbers[maxmin1.max_idx] < numbers[maxmin2.max_idx])
+        result.max_idx = maxmin2.max_idx;
     else
-        result.max = value1.max;
+        result.max_idx = maxmin1.max_idx;
 
     return result;
 }
 
 int main() {
     srand((unsigned) time(nullptr));
-    int n = 40;
+
+    int n = 40;                                //vector size
     std::vector<int> instances(n, 0);
-    generateInstances(instances);
+    generateIntValues(instances);
 
     std::cout << "Instances: " << std::endl;
     for (auto i : instances)
         std::cout << i << " ";
     std::cout << std::endl;
 
-    Maxmin values = maximumValue(instances);
-    std::cout << "Greatest: " << values.max << std::endl;
-    std::cout << "Smallest: " << values.min << std::endl;
+    int begin_idx = 0;
+    int end_idx = instances.size() - 1;
+    Maxmin maxmin = maximumValue(instances, begin_idx, end_idx);
+
+    std::cout << "Greatest: " << instances[maxmin.max_idx] << " Index: " << maxmin.max_idx << std::endl;
+    std::cout << "Smallest: " << instances[maxmin.min_idx] << " Index: " << maxmin.min_idx;
+
     return 0;
 }
