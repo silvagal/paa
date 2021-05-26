@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 void generateInstances(std::vector<int>& instances){
     for (int i = 0; i < instances.size(); ++i)
@@ -7,7 +8,7 @@ void generateInstances(std::vector<int>& instances){
 }
 
 template <class T>
-int maximumValue(std::vector<T>& numbers){
+T maximumValue(std::vector<T>& numbers){
     int n = numbers.size();
     if (n == 1)
         return numbers[0];
@@ -29,6 +30,7 @@ int maximumValue(std::vector<T>& numbers){
 }
 
 int main() {
+    srand((unsigned) time(nullptr));
     int n = 40;
     std::vector<int> instances(n, 0);
     generateInstances(instances);
