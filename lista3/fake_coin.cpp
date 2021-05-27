@@ -33,15 +33,16 @@ int fakeCoin(std::vector<int>& coins){
             break;
         }
 
-    if (flag)
-        return coin_left_idx;
-    else
-        return middle_idx;
+        if (flag)
+            return coin_left_idx;
+        else
+            return middle_idx;
+    }
 }
 
 int main() {
     std::vector<int> coins = {5,5,5,5,4,5,5};
-
+    
     std::cout << fakeCoin(coins);
     return 0;
 }
